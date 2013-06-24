@@ -20,8 +20,13 @@ require(['aura/aura'], function (Aura) {
   Add your extensions here.
    */
   app.use('extensions/aura-backbone');
-  app.use('extensions/aura-backbone.layoutmanager');
+//  app.use('extensions/aura-backbone.layoutmanager');
 //  app.permissions
+
+  _.templateSettings = {
+    interpolate : /\{\{(.+?)\}\}/g,
+    evaluate : /\{%(.+?)%\}/g
+  };
 
   var p = app.start({ widgets: 'body' });
 

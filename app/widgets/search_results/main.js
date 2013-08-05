@@ -1,9 +1,15 @@
+/**
+ * Search Results Widget
+ *
+ * Remarks:
+ * - uses extensions/aura-backbone for an integrated Backbone View widget
+ */
 define(function (require) {
 
-  var template = require('text!./searchList.html');
-  var SearchItemView = require('./searchItem');
-  var Collection = require('./searchCollection');
-  var Result = require('./result');
+  var template = require('text!./main.html');
+  var SearchItemView = require('./itemView');
+  var Collection = require('./collection');
+  var Result = require('./model');
 
   Collection = Collection.extend({
     model: Result
@@ -11,25 +17,27 @@ define(function (require) {
   
   return {
 
-    type: 'Backbone',
+    type: 'Backbone', //from extensions/aura-backbone
 
     initialize: function () {
       var self = this;
       this.collection = new Collection();
+
+      //local event listeners
       this.listenTo(this.collection, 'sync', this.render);
 
-      this.sandbox.on('global.search', function (searchTerm) {
-        console.log(searchTerm);
-        self.collection.searchTerm = searchTerm;
-        self.collection.fetch();
-      });
+      //region aura event listeners
+      this.sandbox.on('global.search', this.search, this);
+      this.sandbox.on('search.search', this.search, this);
+      this.sandbox.on('controller.stop', _.bind(function () {
+        this.remove();
+      }, this));
+      //endregion
 
       this.html(template);
-
       this.initParams();
     },
 
-//--Backbone.Layoutmanager implementations------------------------------------------------------------------------------
     render: function() {
       this.$('ul.unstyled').empty();
       this.collection.each(function(item) {
@@ -38,11 +46,21 @@ define(function (require) {
       }, this);
     },
 
+    search: function (searchTerm) {
+      var logger = this.sandbox.logger;
+      logger.log(searchTerm);
+      this.collection.searchTerm = searchTerm;
+      this.collection.fetch({ dataType: 'jsonp' });
+    },
+
+    /**
+     * read parameters from the widget declaration:
+     * if the user typed search param in the URL, or clicked
+     * search from the now playing screen, trigger a search event
+     */
     initParams: function () {
-      if (this.options.params) {
+      if (this.options.params && this.options.params.searchTerm) {
         this.sandbox.emit('global.search', this.options.params.searchTerm);
-//        this.collection.searchTerm = this.options.params.searchTerm;
-//        this.collection.fetch();
       }
     }
   };

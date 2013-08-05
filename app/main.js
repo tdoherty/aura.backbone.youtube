@@ -10,24 +10,29 @@ require.config({
 require(['aura/aura'], function (Aura) {
   'use strict';
 
+  //region global housekeeping
+
+  //configure underscore template settings to use mustache-style syntax, i.e. {{token}}
+  _.templateSettings = {
+    interpolate : /\{\{(.+?)\}\}/g,
+    evaluate : /\{%(.+?)%\}/g
+  };
+
+  //endregion
+
   var app = new Aura({
     debug: {
       enable: true
     }
   });
 
-  /*
-  Add your extensions here.
-   */
+  //region extensions
+
+  //lets us create widgets with type: 'Backbone' for a little less boilerplate
   app.use('extensions/aura-backbone');
-//  app.use('extensions/aura-backbone.layoutmanager');
-//  app.permissions
+  //endregion
 
-  _.templateSettings = {
-    interpolate : /\{\{(.+?)\}\}/g,
-    evaluate : /\{%(.+?)%\}/g
-  };
-
+  //start the app and tell it to look for widgets in the body element
   var p = app.start({ widgets: 'body' });
 
   console.log(p.state());
@@ -43,8 +48,5 @@ require(['aura/aura'], function (Aura) {
     console.log('done');
   });
 
-//  debugger;
-//  app.core.Widgets.load('home', {
-//    el: '#test'
-//  });
+
 });

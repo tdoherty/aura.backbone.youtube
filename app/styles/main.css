@@ -7,3 +7,12 @@ body {
     padding-top: 60px;
     padding-bottom: 40px;
 }
+
+.contactLink {
+    margin-bottom:10px;
+}
+
+.contactLink a {
+    width: 110px;
+    text-align: left;
+}

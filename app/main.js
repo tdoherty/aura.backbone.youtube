@@ -1,9 +1,10 @@
 require.config({
   paths: {
-    aura: 'components/aura/lib',
-    jquery: 'components/jquery/jquery',
-    underscore: 'components/underscore/underscore',
-    text: 'components/requirejs-text/text'
+    aura: 'bower_components/aura/lib',
+    jquery: 'bower_components/jquery/jquery',
+    underscore: 'bower_components/underscore/underscore',
+    text: 'bower_components/requirejs-text/text',
+    modelBinder: 'bower_components/Backbone.ModelBinder/Backbone.ModelBinder'
   }
 });
 
@@ -28,11 +29,11 @@ require(['aura/aura'], function (Aura) {
 
   //region extensions
 
-  //lets us create widgets with type: 'Backbone' for a little less boilerplate
+  //lets us create aura_components with type: 'Backbone' for a little less boilerplate
   app.use('extensions/aura-backbone');
   //endregion
 
-  //start the app and tell it to look for widgets in the body element
+  //start the app and tell it to look for aura_components in the body element
   var p = app.start({ widgets: 'body' });
 
   console.log(p.state());

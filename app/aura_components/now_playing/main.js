@@ -1,9 +1,9 @@
 define(function (require) {
 
-  var template = require('text!./main.html');
   // aura expects a module identifier of the format '__component__$<component name>@default'
   // which throws off relative paths, i.e., require('./router') so we need to use the full path
   // from the baseURL
+  var template = require('text!aura_components/now_playing/main.html');
   var Model = require('aura_components/now_playing/model');
 
   return {
@@ -18,6 +18,7 @@ define(function (require) {
       this.listenTo(this.model, 'sync', this.render);
       this.listenTo(this.model, 'sync', this.onSync);
 
+      this.sandbox.on('global.nowplaying', this.fetch, this);
       this.sandbox.on('nowplaying.contentChange', this.fetch, this);
       this.sandbox.on('controller.stop', function () {
         this.stop();

@@ -6,10 +6,10 @@
  */
 define(function (require) {
 
-  var template = require('text!./main.html');
   // aura expects a module identifier of the format '__component__$<component name>@default'
   // which throws off relative paths, i.e., require('./router') so we need to use the full path
   // from the baseURL
+  var template = require('text!aura_components/search_results/main.html');
   var SearchItemView = require('aura_components/search_results/itemView');
   var Collection = require('aura_components/search_results/collection');
   var Result = require('aura_components/search_results/model');

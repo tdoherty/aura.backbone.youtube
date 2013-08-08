@@ -26,6 +26,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-targethtml');
 
   var yeomanConfig = {
     app: 'app',
@@ -77,12 +78,17 @@ module.exports = function (grunt) {
           }
         },
         onBuildWrite: function(moduleName, path, contents) {
-//          console.log(moduleName);
+//          console.log(path);
           _.each(widgets, function(widgetDir) {
             if(moduleName === 'aura_components/' + widgetDir + '/main') {
-              console.log(moduleName);
+//              console.log(moduleName);
               contents = contents.replace('aura_components/' + widgetDir + '/main', '__component__$' + widgetDir + '@default');
             }
+//            if (moduleName.indexOf('text!') !== -1) {
+//              var paths = moduleName.split('/');
+//              var mod = paths[paths.length-1];
+//              contents = contents.replace('text!aura_components/' + widgetDir + '/' + mod, '__component__$' + widgetDir + '@default/' + mod);
+//            }
           });
           return contents;
         }
@@ -117,7 +123,7 @@ module.exports = function (grunt) {
 //          almond: true,
           wrap: true,
           insertRequire: ['main'],
-          out: "build/main.js",
+          out: "dist/main.js",
           baseUrl: 'app',
           include: (function() {
             // Include Aura
@@ -169,13 +175,31 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,txt,js,html}',
             '.htaccess',
-            'bower_components/**/*',
+//            'bower_components/**/*',
             'images/**/*',
+            'img/**/*',
             'styles/**/*',
-            'aura_components/**/*',
-            'extensions/**/*'
+//            'aura_components/**/*',
+//            'extensions/**/*'
           ]
-        }]
+        }//,
+//          {
+//            expand: true,
+//            dot: true,
+//            cwd: './build',
+//            dest: '<%= yeoman.dist %>',
+//            src: [
+//              'main.js'
+//              ]
+//          }
+        ]
+      }
+    },
+    targethtml: {
+      dist: {
+        files: {
+          'dist/index.html': 'app/index.html'
+        }
       }
     },
     jshint: {
@@ -231,7 +255,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('spec', ['jshint', 'connect', 'mocha']);
-  grunt.registerTask('build', ['clean', 'copy', 'requirejs:oneFile']);
+  grunt.registerTask('build', ['clean', 'copy', 'requirejs:oneFile', 'targethtml']);
 //  grunt.registerTask('build', ['clean', 'compass', 'spec', 'copy', 'requirejs']);
   grunt.registerTask('default', ['compass', 'spec', 'watch']);
 };

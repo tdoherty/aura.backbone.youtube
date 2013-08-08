@@ -4,18 +4,19 @@
  */
 define(function (require) {
 
-  //these are the main layouts for the app, containing aura widget declarations
-  var templates = {
-    app: _.template(require('text!./app.html')),
-    home: _.template(require('text!./home.html')),
-    contact: _.template(require('text!./contact.html')),
-    search: _.template(require('text!./search.html')),
-    nowplaying: _.template(require('text!./nowplaying.html'))
-  };
-
   // aura expects a module identifier of the format '__component__$<component name>@default'
   // which throws off relative paths, i.e., require('./router') so we need to use the full path
   // from the baseURL
+
+  //these are the main layouts for the app, containing aura widget declarations
+  var templates = {
+    app: _.template(require('text!aura_components/app/app.html')),
+    home: _.template(require('text!aura_components/app/home.html')),
+    contact: _.template(require('text!aura_components/app/contact.html')),
+    search: _.template(require('text!aura_components/app/search.html')),
+    nowplaying: _.template(require('text!aura_components/app/nowplaying.html'))
+  };
+
   var Router = require('aura_components/app/router');
 
   return {

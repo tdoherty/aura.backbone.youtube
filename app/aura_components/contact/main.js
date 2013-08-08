@@ -1,9 +1,9 @@
 define(function (require) {
 
-  var template = require('text!./contact.html');
   // aura expects a module identifier of the format '__component__$<component name>@default'
   // which throws off relative paths, i.e., require('./router') so we need to use the full path
   // from the baseURL
+  var template = require('text!aura_components/contact/contact.html');
   var ItemView = require('aura_components/contact/contactLink');
 
   return {

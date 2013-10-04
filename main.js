@@ -18163,8 +18163,8 @@ define('aura_components/app/router',['require','backbone'],function (require) {
 define('__component__$app@default',['require','text!aura_components/app/app.html','text!aura_components/app/home.html','text!aura_components/app/contact.html','text!aura_components/app/search.html','text!aura_components/app/nowplaying.html','aura_components/app/router'],function (require) {
 
   // aura expects a module identifier of the format '__component__$<component name>@default'
-  // which throws off relative paths, i.e., require('./router') so we need to use the full path
-  // from the baseURL
+  // which throws off relative paths in the r.js optimized file, i.e., require('./router')
+  // so we need to use the full path from the baseURL
 
   //these are the main layouts for the app, containing aura widget declarations
   var templates = {
